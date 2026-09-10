@@ -1,5 +1,5 @@
 param(
-  [string]$SourceRoot = 'D:\ARTE PARA CANECA',
+  [string[]]$SourceRoots = @('D:\ARTE PARA CANECA', 'D:\ARTE PARA CANECA 2'),
   [string]$ProjectRoot = 'C:\Users\alexs\Documents\site\agenda-motos-app'
 )
 
@@ -11,9 +11,13 @@ $manifestPath = Join-Path $ProjectRoot 'dist\catalogo.json'
 $logPath = Join-Path $ProjectRoot 'catalogo-falhas.txt'
 New-Item -ItemType Directory -Force $outputRoot | Out-Null
 
-$files = Get-ChildItem -LiteralPath $SourceRoot -File -Recurse -ErrorAction SilentlyContinue |
-  Where-Object { $_.Extension -match '^\.(png|jpg|jpeg|webp)$' -and $_.FullName -match 'MOCKUP' } |
-  Sort-Object FullName
+$files = @(
+  foreach ($sourceRoot in $SourceRoots) {
+    Get-ChildItem -LiteralPath $sourceRoot -File -Recurse -ErrorAction SilentlyContinue |
+      Where-Object { $_.Extension -match '^\.(png|jpg|jpeg|webp)$' -and $_.FullName -match 'MOCKUP' } |
+      ForEach-Object { [pscustomobject]@{ Root = $sourceRoot.TrimEnd('\'); File = $_ } }
+  }
+) | Sort-Object @{ Expression = { $_.Root } }, @{ Expression = { $_.File.FullName } }
 
 $items = [System.Collections.Generic.List[object]]::new()
 $failures = [System.Collections.Generic.List[string]]::new()
@@ -26,7 +30,8 @@ $encoderParameters.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter
 )
 
 for ($index = 0; $index -lt $files.Count; $index++) {
-  $file = $files[$index]
+  $sourceRoot = $files[$index].Root
+  $file = $files[$index].File
   $number = $index + 1
   $filename = '{0:D5}.jpg' -f $number
   $destination = Join-Path $outputRoot $filename
@@ -46,7 +51,7 @@ for ($index = 0; $index -lt $files.Count; $index++) {
     $bitmap.Dispose()
     $sourceImage.Dispose()
 
-    $relative = $file.FullName.Substring($SourceRoot.TrimEnd('\').Length).TrimStart('\')
+    $relative = $file.FullName.Substring($sourceRoot.Length).TrimStart('\')
     $parts = $relative.Split('\')
     $mockupIndex = -1
     for ($partIndex = 0; $partIndex -lt $parts.Count; $partIndex++) {
