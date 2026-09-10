@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catálogo completo de artes e mockups de canecas personalizadas da World Arte.">
+  <meta name="theme-color" content="#071a3d">
+  <title>Catálogo completo | World Arte</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="World Arte — início">
+        <img src="assets/logo.png" alt="" width="64" height="64">
+        <span><strong>World Arte</strong><small>Personalizados e Informática</small></span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav id="menu" class="menu" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="catalogo.html" aria-current="page">Catálogo</a>
+        <a class="button button-small" href="https://wa.me/5584999131802?text=Ol%C3%A1%2C%20World%20Arte!%20Quero%20solicitar%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento</a>
+      </nav>
+    </div>
+  </header>
+  <main id="conteudo">
+    <section class="catalog-page-head">
+      <div class="container">
+        <p class="eyebrow">Catálogo completo</p>
+        <h1>Encontre a arte da sua caneca.</h1>
+        <p>Pesquise pelo nome ou pela coleção. Clique em qualquer imagem para ampliar.</p>
+      </div>
+    </section>
+    <section class="catalog-browser section">
+      <div class="container">
+        <div class="catalog-controls" role="search">
+          <label><span>Pesquisar no catálogo</span><input id="catalog-search" type="search" placeholder="Ex.: alfabeto, profissão, família..." autocomplete="off"></label>
+          <label><span>Coleção</span><select id="catalog-collection"><option value="">Todas as coleções</option></select></label>
+        </div>
+        <p class="catalog-status" id="catalog-status" aria-live="polite">Carregando catálogo…</p>
+        <div class="full-catalog-grid" id="catalog-grid"></div>
+        <div class="catalog-load-wrap"><button class="button" id="catalog-load" type="button" hidden>Carregar mais</button></div>
+      </div>
+    </section>
+  </main>
+  <dialog class="image-lightbox" aria-label="Visualização ampliada do produto">
+    <button class="lightbox-close" type="button" aria-label="Fechar imagem">×</button>
+    <img src="" alt="">
+    <p></p>
+    <a class="button lightbox-order" href="https://wa.me/5584999131802" target="_blank" rel="noopener">Pedir esta arte</a>
+  </dialog>
+  <footer>
+    <div class="container footer-wrap">
+      <a class="brand brand-footer" href="index.html"><img src="assets/logo.png" alt="" width="60" height="60"><span><strong>World Arte</strong><small>Personalizados e Informática</small></span></a>
+      <p>© <span id="year"></span> World Arte. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script src="catalogo.js"></script>
+</body>
+</html>
